@@ -1,0 +1,14 @@
+_id: env_env_297a7fde1f64232ff44ec9d1e419ddd83176e754_sub
+type: Environment
+parentId: env_297a7fde1f64232ff44ec9d1e419ddd83176e754
+modified: 1632859842748
+created: 1632859842748
+name: OpenAPI env
+data:
+  scheme: https
+  base_path: ""
+  host: site202120.tw.cs.unibo.it
+dataPropertyOrder: null
+color: null
+isPrivate: false
+metaSortKey: 1632859842748

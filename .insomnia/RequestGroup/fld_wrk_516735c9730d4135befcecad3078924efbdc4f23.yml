@@ -1,0 +1,10 @@
+_id: fld_wrk_516735c9730d4135befcecad3078924efbdc4f23
+type: RequestGroup
+parentId: wrk_516735c9730d4135befcecad3078924e
+modified: 1632859842744
+created: 1632859842744
+name: products
+description: Operations available for CRUD operation in the products database
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1632859842744

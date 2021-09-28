@@ -1,0 +1,21 @@
+_id: req_wrk_516735c9730d4135befcecad3078924e9861467b
+type: Request
+parentId: fld_wrk_516735c9730d4135befcecad3078924e70ef1c72
+modified: 1632859842742
+created: 1632859842742
+url: "{{ base_url }}/customers"
+name: return all the customers in the database
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1632859842742
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
