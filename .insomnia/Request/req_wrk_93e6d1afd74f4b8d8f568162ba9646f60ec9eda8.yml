@@ -1,0 +1,29 @@
+_id: req_wrk_93e6d1afd74f4b8d8f568162ba9646f60ec9eda8
+type: Request
+parentId: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f6fbdc4f23
+modified: 1632860563999
+created: 1632860563999
+url: "{{ base_url }}/products"
+name: create an element on the database
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "title": "Macchina da corsa",
+      "description": "Macchina da corsa ferrari del 1950"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1632860563999
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

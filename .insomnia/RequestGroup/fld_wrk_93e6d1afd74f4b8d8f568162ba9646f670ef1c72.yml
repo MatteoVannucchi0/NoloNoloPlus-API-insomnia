@@ -1,0 +1,10 @@
+_id: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f670ef1c72
+type: RequestGroup
+parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
+modified: 1632860564029
+created: 1632860564029
+name: customers
+description: Operations available for CRUD operation in the customers database
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: -1632860564029

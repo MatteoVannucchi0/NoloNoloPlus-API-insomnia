@@ -1,0 +1,21 @@
+_id: req_wrk_93e6d1afd74f4b8d8f568162ba9646f68114b41b
+type: Request
+parentId: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f6fbdc4f23
+modified: 1632860564003
+created: 1632860564003
+url: "{{ base_url }}/products"
+name: the api for the products
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1632860564003
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

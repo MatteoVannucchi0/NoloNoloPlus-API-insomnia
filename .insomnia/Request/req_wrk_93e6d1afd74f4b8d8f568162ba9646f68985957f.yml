@@ -1,0 +1,21 @@
+_id: req_wrk_93e6d1afd74f4b8d8f568162ba9646f68985957f
+type: Request
+parentId: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f670ef1c72
+modified: 1632860564008
+created: 1632860564008
+url: "{{ base_url }}/customers/{{ id }}"
+name: remove a customer by id
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1632860564008
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

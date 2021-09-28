@@ -1,0 +1,33 @@
+_id: req_wrk_93e6d1afd74f4b8d8f568162ba9646f6ea20f232
+type: Request
+parentId: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f670ef1c72
+modified: 1632860564012
+created: 1632860564012
+url: "{{ base_url }}/customers"
+name: adds a customers to the database, with a randomly generated id
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: >-
+    {
+      "firstName": "Mario",
+      "lastName": "Rossi",
+      "username": "MarioRossi00",
+      "password": "f2e2376760300880bc8c00040091a6c43eb4ba6188c36d3931752a55ca2d0cfc",
+      "email": "mario.rossi@gmail.com",
+      "dateOfBirth": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1632860564012
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
