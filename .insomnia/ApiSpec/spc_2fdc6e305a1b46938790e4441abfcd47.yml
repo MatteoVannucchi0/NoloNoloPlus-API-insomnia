@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1632860987787
+modified: 1632928413080
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -195,15 +195,15 @@ contents: >
   components:
     schemas:
       Customer:
+        description: Schema for the customer type. Contain the fundamental info of the customer such as fist and last name, date of birth, username and encrypted password
         required:
-        - dateOfBirth
         - email
-        - firstName
-        - lastName
         - password
         - username
         type: object
         properties:
+          _id:
+            $ref: '#/components/schemas/Id'
           firstName:
             type: string
             example: Mario
@@ -224,20 +224,220 @@ contents: >
           dateOfBirth:
             type: string
             format: date
-        description: Schema for the customer type. Contain the fundamental info of the customer such as fist and last name, date of birth, username and encrypted password
-      Product:
+          address:
+            $ref: '#/components/schemas/Address'
+          favorites:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+          rentals:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+      Staff:
         required:
-        - description
-        - title
-        type: object
+          - firstname
+          - lastname
+          - username
+          - password
+          - email
+          - rentals
         properties:
-          title:
+          firstname:
             type: string
-            example: Macchina da corsa
+            example: "Mario"
+          lastname:
+            type: string
+            example: "Bianchi"
+          username:
+            type: string
+            example: ""
+          password:
+            type: string
+            example: "1021390asd812839a0sgo120bklgf1"
+          email:
+            type: string
+            format: email
+            example: "mario.bianchi@libero.it"
+          rentals:
+            type: array
+            items:
+               $ref: "#/components/schemas/Id"
+      Address:
+        type: object
+        required:
+          - country
+          - city
+          - zipcode
+          - streetaddress
+        properties:
+          country:
+            type: string
+            example: "Italy"
+          city:
+            type: string
+            example: "Bologna"
+          zipcode:
+            type: string
+            example: "40124"
+          streetaddress:
+            type: string
+            example: "Via san felice 50/A"
+      Product:
+        type: object
+        description: Schema for the product type. Contain info about the product
+        required:
+        - name
+        - description
+        - image
+        - category
+        - subcategory
+        - tags
+        - units
+        - altproducts
+        - pricemodifiers
+        properties:
+          _id:
+            $ref: '#/components/schemas/Id'
+          name:
+            type: string
+            example: "Macchina da corsa"
           description:
             type: string
-            example: Macchina da corsa ferrari del 1950
-        description: Schema for the product type. Contain info about the product
+            example: "Ferrari del 1950"
+          image:
+            type: string
+            format: path
+            example: "media/productImage.jpg"
+          category:
+            type: string
+            example: "Macchine"
+          subcategory:
+            type: string
+            example: "Super car"
+          tags:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
+          units:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+          altproducts:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+          pricemodifiers:
+            type: array
+            items:
+              $ref: "#/components/schemas/Modifier" 
+      Unit:
+        type: object
+        required:
+          - name
+          - price
+          - condition
+          - avaible
+          - product
+          - rentals
+        properties:
+          _id:
+            $ref: '#/components/schemas/Id'
+          name:
+            type: string
+            example: "Ferrari 505 del 2019"
+          condition:
+            type: string
+            enum: ["Perfect", "minor flaw", "major flaw", "broken"]
+          avaible:
+            type: boolean
+            example: True
+          product:
+            $ref: "#/components/schemas/Id"
+          rentals:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+      Rental:
+        type: object
+        required:
+          - startdate
+          - enddate
+          - bill
+          - customer
+          - staff
+          - unit
+        properties:
+          _id:
+            $ref: "#/components/schemas/Id"
+          startdate:
+            type: string
+            format: date
+            example: "2021-07-13"
+          enddate:
+            type: string
+            format: date
+            example: "2017-08-02"
+          bill:
+            $ref: "#/components/schemas/Bill"
+          customer:
+            $ref: "#/components/schemas/Id"
+          staff:
+            $ref: "#/components/schemas/Id"
+          unit:
+            $ref: "#/components/schemas/Id"
+          date:
+            type: string
+      Bill:
+        type: object
+        required:
+          - baseprice
+          - currency
+          - modifiers
+          - date
+        properties:
+          _id:
+            $ref: "#/components/schemas/Id"
+          baseprice:
+            type: number
+            example: 125.4
+          currency:
+            type: string
+            enum: ["€", "£", "$"]
+          modifiers:
+            type: array
+            items:
+              $ref: "#/components/schemas/Modifier"
+          date:
+            type: string
+            format: data
+            example: "2021-07-13"
+      Tag:
+        required:
+          - key
+          - value
+        properties:
+          key:
+            type: string
+            example: "Marca"
+          value:
+            type: string
+            example: "Rolex"
+      Modifier:
+        required:
+          - value
+          - condition
+        properties:
+          value:
+            type: number
+            example: 0.90
+          condition:
+            type: string
+            example: "If rental is on the weekend"
+      Id:
+        type: integer
+        example: 24
+        description: "Id of object on the database"
       Error:
         required:
         - message
