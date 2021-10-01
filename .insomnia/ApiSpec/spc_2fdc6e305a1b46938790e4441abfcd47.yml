@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633119902516
+modified: 1633121798504
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -33,9 +33,9 @@ contents: >
     description: Operations available for CRUD operation in the products database
   - name: staff
     description: Operations available for CRUD operation in the Staff database
-  - name: Unit
+  - name: unit
     description: Operations available for CRUD operation in the unit database
-  - name: Rental
+  - name: rental
     description: Operations available for CRUD operation in the products database
   paths:
     /customers:
@@ -101,8 +101,7 @@ contents: >
           description: The id of the customers to get
           required: true
           schema:
-            type: integer
-          example: 5
+            $ref: "#/components/schemas/Id"
         responses:
           "201":
             description: The operation was completed successfully
@@ -132,11 +131,8 @@ contents: >
           in: path
           description: The id of the customers to delete
           required: true
-          style: simple
-          explode: false
           schema:
-            type: integer
-          example: 5
+            $ref: "#/components/schemas/Id"
         responses:
           "200":
             description: customer deleted correctly
@@ -156,7 +152,7 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-      put:
+      patch:
         description: Modify a customer on the database
         tags:
         - customers
@@ -167,8 +163,7 @@ contents: >
           description: The id of the customers to modify
           required: true
           schema:
-            type: integer
-          example: 5
+            $ref: "#/components/schemas/Id"
         requestBody:
           description: The new field of the customer
           content:
@@ -197,7 +192,7 @@ contents: >
     /customers/{id}/rentals:
       get:
         description: get all rental associated with the customer
-        operationId: getAllRentals
+        operationId: getAllCustomerRentals
         tags:
         - customers
         parameters:
@@ -342,9 +337,192 @@ contents: >
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
-    /products/{id}/tags:
-    /products/{id}/units:
-    /products/{id}/altproducts:
+    /staffs:
+      get:
+        description: Get all staffs in the database
+        tags:
+        - staff
+        operationId: getAllStaffs
+        responses:
+          "200":
+            description: the operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Staff'
+          "500":
+            description: server error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      post:
+        description: Create a staff in the database, with a randomly generated id
+        tags:
+        - staff
+        operationId: addStaff
+        requestBody:
+          description: the staff to be added to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Staff'
+        responses:
+          "201":
+            description: staff created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Staff"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "409":
+            description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+    /staffs/{id}:
+      get:
+        description: get a staff by id
+        tags:
+        - staff
+        operationId: getStaffById
+        parameters:
+        - name: id
+          in: path
+          description: The id of the staff to get
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "201":
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Staff"
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No staff with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      delete:
+        description: Delete a staff with the id passed
+        tags:
+        - staff
+        operationId: removeStaffById
+        parameters:
+        - name: id
+          in: path
+          description: The id of the staff to delete
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "200":
+            description: staff deleted correctly
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Staff"
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No staff with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      patch:
+        description: Modify a staff on the database
+        tags:
+        - staff
+        operationId: modifyStaff
+        parameters:
+        - name: id
+          in: path
+          description: The id of the staff to modify
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+          example: 5
+        requestBody:
+          description: The new field of the staff
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Staff'
+        responses:
+          "200":
+            description: staff modified successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: A staff with that id doesn't exit.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error" 
+    /staffs/{id}/rentals:
+      get:
+        description: get all rental associated with the staff
+        operationId: getAllStaffRentals
+        tags:
+        - staff
+        parameters:
+        - name: id
+          in: path
+          description: The id of the staff
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "201":
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Rental'
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No staff with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"  
   components:
     schemas:
       Customer:
@@ -404,10 +582,6 @@ contents: >
             type: string
             format: email
             example: "mario.bianchi@libero.it"
-          rentals:
-            type: array
-            items:
-               $ref: "#/components/schemas/Id"
       Address:
         type: object
         required:
