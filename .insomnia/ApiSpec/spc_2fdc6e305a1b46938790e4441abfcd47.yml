@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1632928413080
+modified: 1633098679125
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -34,9 +34,9 @@ contents: >
   paths:
     /customers:
       get:
+        description: Get all customer in the database
         tags:
         - customers
-        summary: return all the customers in the database
         operationId: getAllCustomers
         responses:
           "200":
@@ -49,10 +49,14 @@ contents: >
                     $ref: '#/components/schemas/Customer'
           "500":
             description: server error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
       post:
+        description: Create a customers in the database, with a randomly generated id
         tags:
         - customers
-        summary: adds a customers to the database, with a randomly generated id
         operationId: addCustomer
         requestBody:
           description: the customer to be added to the database
@@ -62,38 +66,60 @@ contents: >
                 $ref: '#/components/schemas/Customer'
         responses:
           "201":
-            description: customer added to the database correctly
+            description: customer created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
           "400":
             description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
           "409":
             description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
     /customers/{id}:
       get:
+        description: get a customer by id
         tags:
         - customers
-        summary: get a customer by id
         operationId: getCustomerById
         parameters:
         - name: id
           in: path
           description: The id of the customers to get
           required: true
-          style: simple
-          explode: false
           schema:
             type: integer
           example: 5
         responses:
           "201":
-            description: the operation was completed successfully
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
           "400":
-            description: invalid id
-          "409":
-            description: no customer with that id exist
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No customer with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
       delete:
+        description: Delete a customer with the id passed
         tags:
         - customers
-        summary: remove a customer by id
         operationId: removeCustomerById
         parameters:
         - name: id
@@ -107,11 +133,61 @@ contents: >
           example: 5
         responses:
           "200":
-            description: customer removed  correctly
+            description: customer deleted correctly
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
           "400":
-            description: invalid id
-          "409":
-            description: no customer with that id exist
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No customer with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      put:
+        description: Modify a customer on the database
+        tags:
+        - customers
+        operationId: modifyCustomer
+        parameters:
+        - name: id
+          in: path
+          description: The id of the customers to modify
+          required: true
+          schema:
+            type: integer
+          example: 5
+        requestBody:
+          description: The new field of the customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        responses:
+          "200":
+            description: customer modified successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: A customer with that id doesn't exit.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error" 
     /products:
       get:
         tags:
@@ -200,6 +276,8 @@ contents: >
         - email
         - password
         - username
+        - favorites
+        - rentals
         type: object
         properties:
           _id:
