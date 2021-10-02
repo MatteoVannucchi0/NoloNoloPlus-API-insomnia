@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633165457496
+modified: 1633169453021
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -31,11 +31,11 @@ contents: >
     description: Operations available for CRUD operation in the customers database
   - name: products
     description: Operations available for CRUD operation in the products database
-  - name: staff
-    description: Operations available for CRUD operation in the Staff database
+  - name: employees
+    description: Operations available for CRUD operation in the employee database
   - name: unit
     description: Operations available for CRUD operation in the unit database
-  - name: rental
+  - name: rentals
     description: Operations available for CRUD operation in the products database
   paths:
     /customers:
@@ -103,7 +103,7 @@ contents: >
           schema:
             $ref: "#/components/schemas/Id"
         responses:
-          "201":
+          "200":
             description: The operation was completed successfully
             content:
               application/json:
@@ -191,7 +191,7 @@ contents: >
                   $ref: "#/components/schemas/Error" 
     /customers/{id}/rentals:
       get:
-        description: get all rental associated with the customer
+        description: get all rentals associated with the customer
         operationId: getAllCustomerRentals
         tags:
         - customers
@@ -257,12 +257,12 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-    /staffs:
+    /employees:
       get:
-        description: Get all staffs in the database
+        description: Get all employees in the database
         tags:
-        - staff
-        operationId: getAllStaffs
+        - employees
+        operationId: getAllEmployees
         responses:
           "200":
             description: the operation was completed successfully
@@ -271,7 +271,7 @@ contents: >
                 schema:
                   type: array
                   items:
-                    $ref: '#/components/schemas/Staff'
+                    $ref: '#/components/schemas/Employee'
           "500":
             description: server error
             content:
@@ -279,23 +279,23 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
       post:
-        description: Create a staff in the database, with a randomly generated id
+        description: Create a employee in the database, with a randomly generated id
         tags:
-        - staff
-        operationId: addStaff
+        - employees
+        operationId: addEmployee
         requestBody:
-          description: the staff to be added to the database
+          description: the employee to be added to the database
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Staff'
+                $ref: '#/components/schemas/Employee'
         responses:
           "201":
-            description: staff created successfully
+            description: employee created successfully
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Staff"
+                  $ref: "#/components/schemas/Employee"
           "400":
             description: invalid input, object invalid
             content:
@@ -308,16 +308,16 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-    /staffs/{id}:
+    /employees/{id}:
       get:
-        description: get a staff by id
+        description: get a employee by id
         tags:
-        - staff
-        operationId: getStaffById
+        - employees
+        operationId: getEmployeeById
         parameters:
         - name: id
           in: path
-          description: The id of the staff to get
+          description: The id of the employee to get
           required: true
           schema:
             $ref: "#/components/schemas/Id"
@@ -327,7 +327,7 @@ contents: >
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Staff"
+                  $ref: "#/components/schemas/Employee"
           "400":
             description: Invalid id
             content:
@@ -335,30 +335,30 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
           "404":
-            description: No staff with that id exist
+            description: No employee with that id exist
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
       delete:
-        description: Delete a staff with the id passed
+        description: Delete a employee with the id passed
         tags:
-        - staff
-        operationId: removeStaffById
+        - employees
+        operationId: removeEmployeeById
         parameters:
         - name: id
           in: path
-          description: The id of the staff to delete
+          description: The id of the employee to delete
           required: true
           schema:
             $ref: "#/components/schemas/Id"
         responses:
           "200":
-            description: staff deleted correctly
+            description: employee deleted correctly
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Staff"
+                  $ref: "#/components/schemas/Employee"
           "400":
             description: Invalid id
             content:
@@ -366,37 +366,37 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
           "404":
-            description: No staff with that id exist
+            description: No employee with that id exist
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
       patch:
-        description: Modify a staff on the database
+        description: Modify a employee on the database
         tags:
-        - staff
-        operationId: modifyStaff
+        - employees
+        operationId: modifyEmployee
         parameters:
         - name: id
           in: path
-          description: The id of the staff to modify
+          description: The id of the employee to modify
           required: true
           schema:
             $ref: "#/components/schemas/Id"
           example: 5
         requestBody:
-          description: The new field of the staff
+          description: The new field of the employee
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Staff'
+                $ref: '#/components/schemas/Employee'
         responses:
           "200":
             description: staff modified successfully
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Customer"
+                  $ref: "#/components/schemas/Employee"
           "400":
             description: invalid input, object invalid
             content:
@@ -404,21 +404,21 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
           "404":
-            description: A staff with that id doesn't exit.
+            description: A employee with that id doesn't exit.
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error" 
-    /staffs/{id}/rentals:
+    /employees/{id}/rentals:
       get:
-        description: get all rental associated with the staff
-        operationId: getAllStaffRentals
+        description: get all rental associated with the employee
+        operationId: getAllEmployeeRentals
         tags:
-        - staff
+        - employees
         parameters:
         - name: id
           in: path
-          description: The id of the staff
+          description: The id of the employee
           required: true
           schema:
             $ref: "#/components/schemas/Id"
@@ -438,7 +438,7 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
           "404":
-            description: No staff with that id exist
+            description: No employee with that id exist
             content:
               application/json:
                 schema:
@@ -447,13 +447,13 @@ contents: >
       get:
         tags:
         - products
-        summary: Get all products
+        description: Get all products
         operationId: getAllProducts
         responses:
           "200":
             description: the operation was completed successfully
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   type: array
                   items:
@@ -461,25 +461,25 @@ contents: >
           "500":
             description: server error
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   $ref: '#/components/schemas/Error'
       post:
         tags:
         - products
-        summary: Create a product on the database with a randomly generated id
+        description: Create a product on the database with a randomly generated id
         operationId: createProduct
         requestBody:
           description: the product to be created on the database
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 $ref: '#/components/schemas/Product'
         responses:
           "201":
             description: the operation was successfull
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   $ref: '#/components/schemas/Product'
           "400":
@@ -488,6 +488,12 @@ contents: >
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
+          "409":
+            description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
     /products/{id}:
       get:
         tags:
@@ -499,16 +505,13 @@ contents: >
           in: path
           description: the id of the product to return
           required: true
-          style: simple
-          explode: false
           schema:
-            type: integer
-          example: 52
+            $ref: "#/components/schemas/Id"
         responses:
           "200":
             description: the operation was completed successfully
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   $ref: '#/components/schemas/Product'
           "400":
@@ -517,12 +520,12 @@ contents: >
               application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
-          "409":
-            description: no product with that id exist in the database
+          "404":
+            description: No product with that id exist
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Error'
+                  $ref: "#/components/schemas/Error"
       delete: 
         description: Delete a product with the id passed
         tags: 
@@ -533,15 +536,13 @@ contents: >
           in: path
           description: The id of the product to delete
           required: true
-          style: simple
-          explode: false
           schema:
             $ref: "#/components/schemas/Id"
         responses: 
           "200":
             description: product deleted correctly
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   $ref: "#/components/schemas/Product"
           "400":
@@ -571,14 +572,14 @@ contents: >
         requestBody:
           description: The new field of the product
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 $ref: '#/components/schemas/Product'
         responses:
           "200":
             description: product modified successfully
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   $ref: "#/components/schemas/Product"
           "400":
@@ -596,7 +597,7 @@ contents: >
     /products/{id}/units:
       get:
         description: Get all unit associated with the product
-        operationId: getAllProducs
+        operationId: getAllUnitsOfProduct
         tags:
         - products
         parameters:
@@ -607,10 +608,10 @@ contents: >
           schema:
             $ref: "#/components/schemas/Id"
         responses:
-          "201":
+          "200":
             description: The operation was completed successfully
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   type: array
                   items:
@@ -628,30 +629,30 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
       post:
-        description: Create a unit in the database, with a randomly generated id
+        description: Create a unit assocciated with the product in the database, with a randomly generated id
         tags:
         - products
         operationId: addUnitToProduct
         parameters: 
         - name: id
           in: path
-          description: none for now 
+          description: The id of the product 
           required: true
           schema:
             $ref: "#/components/schemas/Id"
         requestBody:
-          description: the customer to be added to the database
+          description: the tag to be added to the product
           content:
-            application/json:
+            multipart/form-data:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/Unit'
         responses:
           "201":
-            description: customer created successfully
+            description: Unit created successfully
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Customer"
+                  $ref: "#/components/schemas/Unit"
           "400":
             description: invalid input, object invalid
             content:
@@ -672,6 +673,7 @@ contents: >
         parameters:
         - name: id
           in: path
+          description: The id of the product
           required: true
           schema:
             $ref: "#/components/schemas/Id"
@@ -697,30 +699,30 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
       post:
-        description: Create a customers in the database, with a randomly generated id
+        description: Create a tags assocciated with the product in the database, with a randomly generated id
         tags:
         - products
-        operationId: addUnitToProduct
+        operationId: addTagToProduct
         parameters: 
         - name: id
           in: path
-          description: none for now 
+          description: The id of the product 
           required: true
           schema:
             $ref: "#/components/schemas/Id"
         requestBody:
-          description: the customer to be added to the database
+          description: the tag to be added to the product
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/Tag'
         responses:
           "201":
-            description: customer created successfully
+            description: tag added successfully
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/Customer"
+                  $ref: "#/components/schemas/Tag"
           "400":
             description: invalid input, object invalid
             content:
@@ -736,7 +738,7 @@ contents: >
     /products/{id}/altproducts:
       get:
         description: Get all alternative products associated with the product
-        operationId: getAllAltProducts
+        operationId: getAllAltProductOfProduct
         tags:
         - products
         parameters:
@@ -750,7 +752,7 @@ contents: >
           "201":
             description: The operation was completed successfully
             content:
-              application/json:
+              multipart/form-data:
                 schema:
                   type: array
                   items:
@@ -767,12 +769,49 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
+      post:
+        description: Add an alternate product assocciated with the product in the database, with a randomly generated id
+        tags:
+        - products
+        operationId: addAltProdToProduct
+        parameters: 
+        - name: id
+          in: path
+          description: The id of the product 
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        requestBody:
+          description: the alternate product to be added to the product
+          content:
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/Product'
+        responses:
+          "201":
+            description: Alternate product added successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Product"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "409":
+            description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
     /rentals: 
       get:
         description: Get all rentals in the database
         tags:
         - rentals
-        operationId: getAllRental
+        operationId: getAllRentals
         responses:
           "200":
             description: the operation was completed successfully
@@ -884,7 +923,7 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-      put:
+      patch:
         description: Modify a rental on the database
         tags:
         - rentals
@@ -955,7 +994,7 @@ contents: >
             format: date
           address:
             $ref: '#/components/schemas/Address'
-      Staff:
+      Employee:
         required:
           - firstname
           - lastname
@@ -1010,9 +1049,7 @@ contents: >
         - category
         - subcategory
         - tags
-        - units
         - altproducts
-        - pricemodifiers
         properties:
           _id:
             $ref: '#/components/schemas/Id'
@@ -1036,25 +1073,17 @@ contents: >
             type: array
             items:
               $ref: "#/components/schemas/Tag"
-          units:
-            type: array
-            items:
-              $ref: "#/components/schemas/Id"
           altproducts:
             type: array
             items:
               $ref: "#/components/schemas/Id"
-          pricemodifiers:
-            type: array
-            items:
-              $ref: "#/components/schemas/Modifier" 
       Unit:
         type: object
         required:
           - name
           - price
           - condition
-          - avaible
+          - available
           - product
           - rentals
         properties:
@@ -1066,7 +1095,7 @@ contents: >
           condition:
             type: string
             enum: ["Perfect", "minor flaw", "major flaw", "broken"]
-          avaible:
+          available:
             type: boolean
             example: True
           product:
@@ -1129,6 +1158,25 @@ contents: >
             type: string
             format: data
             example: "2021-07-13"
+      RentalKit:
+        type: object
+        required:
+          - products
+          - price
+          - currency
+        properties:
+          _id:
+            $ref: "#/components/schemas/Id"
+          products:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+          price:
+            type: number
+            example: 1231
+          currency:
+            type: string
+            enum: ["€", "£", "$"]
       Tag:
         required:
           - key
