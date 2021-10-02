@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633121798504
+modified: 1633165457496
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -257,86 +257,6 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-    /products:
-      get:
-        tags:
-        - products
-        summary: the api for the products
-        operationId: getAllProducts
-        responses:
-          "200":
-            description: the operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Product'
-          "500":
-            description: server error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
-      post:
-        tags:
-        - products
-        summary: create an element on the database
-        operationId: createProduct
-        requestBody:
-          description: the product to be created on the database
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        responses:
-          "201":
-            description: the operation was successfull
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Product'
-          "400":
-            description: the object structure has some error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
-    /products/{id}:
-      get:
-        tags:
-        - products
-        summary: return a single product denoted by an id
-        operationId: getProductById
-        parameters:
-        - name: id
-          in: path
-          description: the id of the product to return
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
-          example: 52
-        responses:
-          "200":
-            description: the operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Product'
-          "400":
-            description: invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
-          "409":
-            description: no product with that id exist in the database
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
     /staffs:
       get:
         description: Get all staffs in the database
@@ -523,6 +443,484 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"  
+    /products:
+      get:
+        tags:
+        - products
+        summary: Get all products
+        operationId: getAllProducts
+        responses:
+          "200":
+            description: the operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+          "500":
+            description: server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      post:
+        tags:
+        - products
+        summary: Create a product on the database with a randomly generated id
+        operationId: createProduct
+        requestBody:
+          description: the product to be created on the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        responses:
+          "201":
+            description: the operation was successfull
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Product'
+          "400":
+            description: the object structure has some error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+    /products/{id}:
+      get:
+        tags:
+        - products
+        summary: return a single product denoted by an id
+        operationId: getProductById
+        parameters:
+        - name: id
+          in: path
+          description: the id of the product to return
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+          example: 52
+        responses:
+          "200":
+            description: the operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Product'
+          "400":
+            description: invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          "409":
+            description: no product with that id exist in the database
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      delete: 
+        description: Delete a product with the id passed
+        tags: 
+        - products
+        operationId: removeProductsById
+        parameters:
+        - name: id
+          in: path
+          description: The id of the product to delete
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses: 
+          "200":
+            description: product deleted correctly
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Product"
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No customer with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      patch:
+        description: Modify a product on the database
+        tags:
+        - products
+        operationId: modifyProduct
+        parameters:
+        - name: id
+          in: path
+          description: The id of the product to modify
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        requestBody:
+          description: The new field of the product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        responses:
+          "200":
+            description: product modified successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Product"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: A product with that id does not exit.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+    /products/{id}/units:
+      get:
+        description: Get all unit associated with the product
+        operationId: getAllProducs
+        tags:
+        - products
+        parameters:
+        - name: id
+          in: path
+          description: The id of the product
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "201":
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Unit'
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No product with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      post:
+        description: Create a unit in the database, with a randomly generated id
+        tags:
+        - products
+        operationId: addUnitToProduct
+        parameters: 
+        - name: id
+          in: path
+          description: none for now 
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        requestBody:
+          description: the customer to be added to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        responses:
+          "201":
+            description: customer created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "409":
+            description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+    /products/{id}/tags:
+      get:
+        description: Get all tags of the products
+        tags:
+        - products
+        parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "201":
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Tag'
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No product with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      post:
+        description: Create a customers in the database, with a randomly generated id
+        tags:
+        - products
+        operationId: addUnitToProduct
+        parameters: 
+        - name: id
+          in: path
+          description: none for now 
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        requestBody:
+          description: the customer to be added to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        responses:
+          "201":
+            description: customer created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Customer"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "409":
+            description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+    /products/{id}/altproducts:
+      get:
+        description: Get all alternative products associated with the product
+        operationId: getAllAltProducts
+        tags:
+        - products
+        parameters:
+        - name: id
+          in: path
+          description: The id of the product
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "201":
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No product with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+    /rentals: 
+      get:
+        description: Get all rentals in the database
+        tags:
+        - rentals
+        operationId: getAllRental
+        responses:
+          "200":
+            description: the operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Rental'
+          "500":
+            description: server error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      post:
+        description: Create a rental in the database, with a randomly generated id
+        tags:
+        - rentals
+        operationId: addRental
+        requestBody:
+          description: the rental to be added to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rental'
+        responses:
+          "201":
+            description: rental created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Rental"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "409":
+            description: an existing item already exists
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+    /rentals/{id}:
+      get:
+        description: get a rental by id
+        tags:
+        - rentals
+        operationId: getRentalById
+        parameters:
+        - name: id
+          in: path
+          description: The id of the rental to get
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        responses:
+          "201":
+            description: The operation was completed successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Rental"
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No rental with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      delete:
+        description: Delete a rental with the id passed
+        tags:
+        - rentals
+        operationId: removeRentalById
+        parameters:
+        - name: id
+          in: path
+          description: The id of the rental to delete
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: "#/components/schemas/Id"
+          example: 5
+        responses:
+          "200":
+            description: rental deleted correctly
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Rental"
+          "400":
+            description: Invalid id
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No rental with that id exist
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      put:
+        description: Modify a rental on the database
+        tags:
+        - rentals
+        operationId: modifyRental
+        parameters:
+        - name: id
+          in: path
+          description: The id of the customers to modify
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+        requestBody:
+          description: The new field of the rental
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rental'
+        responses:
+          "200":
+            description: rental modified successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Rental"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: A rental with that id does not exit.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
   components:
     schemas:
       Customer:
