@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633606178900
+modified: 1633613140633
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -982,7 +982,7 @@ contents: >
                   $ref: "#/components/schemas/Error"
     /authentication/customers/login:
       post:
-        description: Login a customer in the database.
+        description: Login a customer in the database. The customer must already exist.
         tags:
         - authentication
         operationId: loginCustomer
@@ -993,12 +993,8 @@ contents: >
               schema:
                 $ref: '#/components/schemas/LoginInfo'
         responses:
-          "201":
-            description: rental created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Rental"
+          "200":
+            description: Authentication successfull
           "400":
             description: invalid input, object invalid
             content:
@@ -1006,19 +1002,50 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
           "401":
-            description: the customer must authenticate before login
+            description: the customer must register before login
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
           "403":
-            description: the credential are wrongo
+            description: the credential are wrong
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-
-        
+    /authentication/employees/login:
+      post:
+        description: Login a employee in the database. The employee must already exist.
+        tags:
+        - authentication
+        operationId: loginEmployee
+        requestBody:
+          description: the login info of the employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginInfo'
+        responses:
+          "200":
+            description: Authentication successfull
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "401":
+            description: the employee must register itself before login
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "403":
+            description: the credential are wrong
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"  
 
       
   components:
@@ -1049,7 +1076,7 @@ contents: >
           - firstname
           - lastname
           - loginInfo
-          - rentals
+          - authorizazion
         properties:
           firstname:
             type: string
@@ -1059,6 +1086,9 @@ contents: >
             example: "Bianchi"
           loginInfo:
             $ref: "#/components/schemas/LoginInfo"
+          authorizazion:
+            type: string
+            enum: ["Manager", "Employee"]
       Address:
         type: object
         required:
