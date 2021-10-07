@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633599833765
+modified: 1633606178900
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -249,6 +249,13 @@ contents: >
           required: true
           schema:
             $ref: "#/components/schemas/Id"
+        - name: max
+          in: query
+          description: The max number of favorites to return.
+          required: false
+          example: 3
+          schema:
+            type: integer
         responses:
           "201":
             description: The operation was completed successfully
