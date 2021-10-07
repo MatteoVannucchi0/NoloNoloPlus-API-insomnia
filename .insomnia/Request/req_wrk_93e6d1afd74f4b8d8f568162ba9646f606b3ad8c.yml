@@ -1,7 +1,7 @@
 _id: req_wrk_93e6d1afd74f4b8d8f568162ba9646f606b3ad8c
 type: Request
 parentId: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f670ef1c72
-modified: 1632860564010
+modified: 1633200187916
 created: 1632860564010
 url: "{{ base_url }}/customers/{{ id }}"
 name: get a customer by id

@@ -1,14 +1,18 @@
 _id: req_wrk_93e6d1afd74f4b8d8f568162ba9646f69861467b
 type: Request
 parentId: fld_wrk_93e6d1afd74f4b8d8f568162ba9646f670ef1c72
-modified: 1632860564020
+modified: 1632936992086
 created: 1632860564020
 url: "{{ base_url }}/customers"
 name: return all the customers in the database
 description: ""
 method: GET
 body: {}
-parameters: []
+parameters:
+  - id: pair_a87e7ae8272142c1a7ed322f2e8d7a1c
+    name: ""
+    value: ""
+    description: ""
 headers: []
 authentication: {}
 metaSortKey: -1632860564020

@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633169453021
+modified: 1633599833765
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -44,6 +44,19 @@ contents: >
         tags:
         - customers
         operationId: getAllCustomers
+        parameters:
+        - name: username
+          in: query
+          required: false
+          schema: 
+            type: string
+          description: "Username of the customers to be returned"
+        - name: email
+          in: query
+          required: false
+          schema: 
+            type: string
+          description: "Email of the customers to be returned"
         responses:
           "200":
             description: the operation was completed successfully
@@ -960,14 +973,53 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
+    /authentication/customers/login:
+      post:
+        description: Login a customer in the database.
+        tags:
+        - authentication
+        operationId: loginCustomer
+        requestBody:
+          description: the login info of the customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginInfo'
+        responses:
+          "201":
+            description: rental created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Rental"
+          "400":
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "401":
+            description: the customer must authenticate before login
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "403":
+            description: the credential are wrongo
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
+        
+
+      
   components:
     schemas:
       Customer:
         description: Schema for the customer type. Contain the fundamental info of the customer such as fist and last name, date of birth, username and encrypted password
         required:
-        - email
-        - password
-        - username
+        - loginInfo
         type: object
         properties:
           _id:
@@ -978,17 +1030,8 @@ contents: >
           lastName:
             type: string
             example: Rossi
-          username:
-            type: string
-            example: MarioRossi00
-          password:
-            type: string
-            format: password
-            example: f2e2376760300880bc8c00040091a6c43eb4ba6188c36d3931752a55ca2d0cfc
-          email:
-            type: string
-            format: "email"
-            example: mario.rossi@gmail.com
+          loginInfo:
+            $ref: "#/components/schemas/LoginInfo"
           dateOfBirth:
             type: string
             format: date
@@ -998,9 +1041,7 @@ contents: >
         required:
           - firstname
           - lastname
-          - username
-          - password
-          - email
+          - loginInfo
           - rentals
         properties:
           firstname:
@@ -1009,16 +1050,8 @@ contents: >
           lastname:
             type: string
             example: "Bianchi"
-          username:
-            type: string
-            example: ""
-          password:
-            type: string
-            example: "1021390asd812839a0sgo120bklgf1"
-          email:
-            type: string
-            format: email
-            example: "mario.bianchi@libero.it"
+          loginInfo:
+            $ref: "#/components/schemas/LoginInfo"
       Address:
         type: object
         required:
@@ -1212,4 +1245,21 @@ contents: >
             type: string
             example: Could not find server
         description: Schema for the error type. Contain info about the error
+      LoginInfo:
+        description: Schema for the login info of a customer/employee/manager.
+        required:
+        - username
+        - password
+        - email
+        type: object
+        properties:
+          username:
+            type: string
+            example: mariorossi00
+          password:
+            type: string
+            example: secretpassword
+          email:
+            type: string
+            example: "mario.rossi@gmail.com"
 contentType: yaml
