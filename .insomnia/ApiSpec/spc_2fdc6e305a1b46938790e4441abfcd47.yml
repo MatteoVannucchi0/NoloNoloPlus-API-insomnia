@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633613140633
+modified: 1633613723473
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -1047,6 +1047,7 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"  
 
+
       
   components:
     schemas:
@@ -1072,12 +1073,15 @@ contents: >
           address:
             $ref: '#/components/schemas/Address'
       Employee:
+        type: object
         required:
           - firstname
           - lastname
           - loginInfo
           - authorizazion
         properties:
+          _id:
+            $ref: '#/components/schemas/Id'
           firstname:
             type: string
             example: "Mario"
@@ -1208,7 +1212,6 @@ contents: >
         type: object
         required:
           - baseprice
-          - currency
           - modifiers
           - date
         properties:
@@ -1217,9 +1220,6 @@ contents: >
           baseprice:
             type: number
             example: 125.4
-          currency:
-            type: string
-            enum: ["€", "£", "$"]
           modifiers:
             type: array
             items:
@@ -1233,7 +1233,6 @@ contents: >
         required:
           - products
           - price
-          - currency
         properties:
           _id:
             $ref: "#/components/schemas/Id"
@@ -1244,9 +1243,6 @@ contents: >
           price:
             type: number
             example: 1231
-          currency:
-            type: string
-            enum: ["€", "£", "$"]
       Tag:
         required:
           - key
