@@ -10,7 +10,10 @@ method: DELETE
 body: {}
 parameters: []
 headers: []
-authentication: {}
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
 metaSortKey: -1632860564008
 isPrivate: false
 settingStoreCookies: true

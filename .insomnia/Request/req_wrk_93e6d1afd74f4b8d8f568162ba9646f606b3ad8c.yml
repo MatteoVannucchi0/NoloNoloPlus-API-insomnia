@@ -10,7 +10,10 @@ method: GET
 body: {}
 parameters: []
 headers: []
-authentication: {}
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
 metaSortKey: -1632860564010
 isPrivate: false
 settingStoreCookies: true

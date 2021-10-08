@@ -18,7 +18,10 @@ parameters:
     disabled: true
     value: string
 headers: []
-authentication: {}
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
 metaSortKey: -1632860564020
 isPrivate: false
 settingStoreCookies: true

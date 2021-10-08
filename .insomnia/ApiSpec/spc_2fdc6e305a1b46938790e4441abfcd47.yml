@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633696397295
+modified: 1633709825760
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -81,8 +81,6 @@ contents: >
                 schema:
                   $ref: "#/components/schemas/Error"
       post:
-        security:
-          - authToken: []
         description: Create a customers in the database, with a randomly generated id
         tags:
         - customers
@@ -102,12 +100,6 @@ contents: >
                   $ref: "#/components/schemas/Customer"
           "400":
             description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the caller was not authorized to do the operation
             content:
               application/json:
                 schema:
@@ -1047,7 +1039,7 @@ contents: >
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginInfo'
+                $ref: '#/components/schemas/LoginFormInfo'
         responses:
           "200":
             description: Authentication successfull
@@ -1080,7 +1072,7 @@ contents: >
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginInfo'
+                $ref: '#/components/schemas/LoginFormInfo'
         responses:
           "200":
             description: Authentication successfull
@@ -1351,6 +1343,21 @@ contents: >
           email:
             type: string
             example: "mario.rossi@gmail.com"
+      LoginFormInfo:
+        description: Schema for the login info of a customer/employee/manager used when loggin in.
+                     It doesn't required the email and username, but only one of the two.
+        required:
+        - username
+        - password
+        type: object
+        properties:
+          username:
+            type: string
+            example: mariorossi00
+            description: it can be either an email or a username
+          password:
+            type: string
+            example: secretpassword
     securitySchemes:
       authToken:            # arbitrary name for the security scheme
         type: http

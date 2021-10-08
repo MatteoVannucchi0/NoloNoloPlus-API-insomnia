@@ -22,7 +22,10 @@ parameters: []
 headers:
   - name: Content-Type
     value: application/json
-authentication: {}
+authentication:
+  type: bearer
+  token: "{{bearerToken}}"
+  prefix: ""
 metaSortKey: -1632860564012
 isPrivate: false
 settingStoreCookies: true
