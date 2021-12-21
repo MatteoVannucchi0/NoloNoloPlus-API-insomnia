@@ -1,7 +1,7 @@
 _id: spc_2fdc6e305a1b46938790e4441abfcd47
 type: ApiSpec
 parentId: wrk_93e6d1afd74f4b8d8f568162ba9646f6
-modified: 1633709825760
+modified: 1640104744695
 created: 1632860565680
 fileName: NoloNoloPlus API 1.0.0
 contents: >
@@ -21,7 +21,7 @@ contents: >
     version: 1.0.0
   servers:
 
-  - url: https://site202120.tw.cs.unibo.it
+  - url: https://site202120.tw.cs.unibo.it/api
     description: Server primario
   - url: https://localhost.com
     description: Server locale test
@@ -37,7 +37,7 @@ contents: >
     description: Operations available for CRUD operation in the unit database
   - name: rentals
     description: Operations available for CRUD operation in the products database
-  paths:
+  paths: 
     /customers:
       get:
         security:
@@ -80,456 +80,72 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-      post:
-        description: Create a customers in the database, with a randomly generated id
-        tags:
-        - customers
-        operationId: addCustomer
-        requestBody:
-          description: the customer to be added to the database
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Customer'
-        responses:
-          "201":
-            description: customer created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Customer"
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "409":
-            description: an existing item already exists
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /customers/{id}:
-      get:
-        security:
-          - authToken: []
-        description: get a customer by id
-        tags:
-        - customers
-        operationId: getCustomerById
-        parameters:
-        - name: id
-          in: path
-          description: The id of the customers to get
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "200":
-            description: The operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Customer"
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the caller was not authorized to do the operation
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No customer with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      delete:
-        security:
-          - authToken: []
-        description: Delete a customer with the id passed
-        tags:
-        - customers
-        operationId: removeCustomerById
-        parameters:
-        - name: id
-          in: path
-          description: The id of the customers to delete
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "200":
-            description: customer deleted correctly
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Customer"
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the caller was not authorized to do the operation
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No customer with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      patch:
-        security:
-          - authToken: []
-        description: Modify a customer on the database
-        tags:
-        - customers
-        operationId: modifyCustomer
-        parameters:
-        - name: id
-          in: path
-          description: The id of the customers to modify
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        requestBody:
-          description: The new field of the customer
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Customer'
-        responses:
-          "200":
-            description: customer modified successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Customer"
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the caller was not authorized to do the operation
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: A customer with that id doesn't exit.
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error" 
-    /customers/{id}/rentals:
-      get:
-        security:
-          - authToken: []
-        description: get all rentals associated with the customer
-        operationId: getAllCustomerRentals
-        tags:
-        - customers
-        parameters:
-        - name: id
-          in: path
-          description: The id of the customers
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "201":
-            description: The operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Rental'
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the caller was not authorized to do the operation
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No customer with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /customers/{id}/favorites:
-      get:
-        security:
-          - authToken: []
-        description: get all favorites associated with the customer
-        operationId: getAllFavorites
-        tags:
-        - customers
-        parameters:
-        - name: id
-          in: path
-          description: The id of the customers
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        - name: max
-          in: query
-          description: The max number of favorites to return.
-          required: false
-          example: 3
-          schema:
-            type: integer
-        responses:
-          "201":
-            description: The operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Product'
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the caller was not authorized to do the operation
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No customer with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /employees:
-      get:
-        description: Get all employees in the database
-        tags:
-        - employees
-        operationId: getAllEmployees
-        responses:
-          "200":
-            description: the operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Employee'
-          "500":
-            description: server error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      post:
-        description: Create a employee in the database, with a randomly generated id
-        tags:
-        - employees
-        operationId: addEmployee
-        requestBody:
-          description: the employee to be added to the database
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Employee'
-        responses:
-          "201":
-            description: employee created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Employee"
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "409":
-            description: an existing item already exists
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /employees/{id}:
-      get:
-        description: get a employee by id
-        tags:
-        - employees
-        operationId: getEmployeeById
-        parameters:
-        - name: id
-          in: path
-          description: The id of the employee to get
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "201":
-            description: The operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Employee"
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No employee with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      delete:
-        description: Delete a employee with the id passed
-        tags:
-        - employees
-        operationId: removeEmployeeById
-        parameters:
-        - name: id
-          in: path
-          description: The id of the employee to delete
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "200":
-            description: employee deleted correctly
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Employee"
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No employee with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      patch:
-        description: Modify a employee on the database
-        tags:
-        - employees
-        operationId: modifyEmployee
-        parameters:
-        - name: id
-          in: path
-          description: The id of the employee to modify
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-          example: 5
-        requestBody:
-          description: The new field of the employee
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Employee'
-        responses:
-          "200":
-            description: staff modified successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Employee"
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: A employee with that id doesn't exit.
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error" 
-    /employees/{id}/rentals:
-      get:
-        description: get all rental associated with the employee
-        operationId: getAllEmployeeRentals
-        tags:
-        - employees
-        parameters:
-        - name: id
-          in: path
-          description: The id of the employee
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "201":
-            description: The operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Rental'
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No employee with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"  
     /products:
       get:
         tags:
         - products
         description: Get all products
         operationId: getAllProducts
+        parameters:
+        - name: name
+          in: query
+          description: "The name of the product to return"
+          required: false
+          schema:
+            type: string
+          example: "Ferrari 518"
+        - name: category
+          in: query
+          description: "The category of the product to return"
+          required: false
+          schema:
+            type: string
+          example: "Supercar"
+        - name: subcategory
+          in: query
+          description: "The subcategory of the product to return"
+          required: false
+          schema:
+            type: string
+          example: "Supercar"
+        - name: availableTo
+          in: query
+          description: "If present return only product available to a certain date, if availableFrom is not set it use the current date for the from date"
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: availableFrom
+          in: query
+          description: "If availableTo is present return only products available in that period, else it is ignored"
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: available
+          in: query
+          description: "If present and if true it return only product available now"
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: populate
+          in: query
+          description: "If present and if true it populate the field of the products"
+          required: false
+          schema:
+            type: boolean
         responses:
           "200":
             description: the operation was completed successfully
             content:
-              multipart/form-data:
+              application/json:
                 schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Product'
+                  $ref: '#/components/schemas/PaginatorProduct'
           "500":
             description: server error
             content:
-              multipart/form-data:
+              application/json:
                 schema:
                   $ref: '#/components/schemas/Error'
       post:
@@ -640,7 +256,7 @@ contents: >
         requestBody:
           description: The new field of the product
           content:
-            multipart/form-data:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Product'
         responses:
@@ -723,6 +339,12 @@ contents: >
                   $ref: "#/components/schemas/Unit"
           "400":
             description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "404":
+            description: No product with that id exist
             content:
               application/json:
                 schema:
@@ -817,7 +439,7 @@ contents: >
           schema:
             $ref: "#/components/schemas/Id"
         responses:
-          "201":
+          "200":
             description: The operation was completed successfully
             content:
               multipart/form-data:
@@ -837,6 +459,12 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
+          "500":
+            description: Server error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
       post:
         description: Add an alternate product assocciated with the product in the database, with a randomly generated id
         tags:
@@ -845,16 +473,21 @@ contents: >
         parameters: 
         - name: id
           in: path
-          description: The id of the product 
+          description: "The id of the product" 
           required: true
           schema:
-            $ref: "#/components/schemas/Id"
+            type: object
+            required:
+              - _id
+            properties:
+              _id:
+                $ref: '#/components/schemas/Id'
         requestBody:
-          description: the alternate product to be added to the product
+          description: the id of the alternate product to be added to the product
           content:
-            multipart/form-data:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/Id'
         responses:
           "201":
             description: Alternate product added successfully
@@ -868,265 +501,100 @@ contents: >
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-          "409":
-            description: an existing item already exists
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /rentals: 
-      get:
-        description: Get all rentals in the database
-        tags:
-        - rentals
-        operationId: getAllRentals
-        responses:
-          "200":
-            description: the operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Rental'
-          "500":
-            description: server error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      post:
-        description: Create a rental in the database, with a randomly generated id
-        tags:
-        - rentals
-        operationId: addRental
-        requestBody:
-          description: the rental to be added to the database
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rental'
-        responses:
-          "201":
-            description: rental created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Rental"
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "409":
-            description: an existing item already exists
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /rentals/{id}:
-      get:
-        description: get a rental by id
-        tags:
-        - rentals
-        operationId: getRentalById
-        parameters:
-        - name: id
-          in: path
-          description: The id of the rental to get
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        responses:
-          "201":
-            description: The operation was completed successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Rental"
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
           "404":
-            description: No rental with that id exist
+            description: No product found with that id
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/Error"
-      delete:
-        description: Delete a rental with the id passed
-        tags:
-        - rentals
-        operationId: removeRentalById
-        parameters:
-        - name: id
-          in: path
-          description: The id of the rental to delete
-          required: true
-          style: simple
-          explode: false
-          schema:
-            $ref: "#/components/schemas/Id"
-          example: 5
-        responses:
-          "200":
-            description: rental deleted correctly
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Rental"
-          "400":
-            description: Invalid id
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: No rental with that id exist
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-      patch:
-        description: Modify a rental on the database
-        tags:
-        - rentals
-        operationId: modifyRental
-        parameters:
-        - name: id
-          in: path
-          description: The id of the customers to modify
-          required: true
-          schema:
-            $ref: "#/components/schemas/Id"
-        requestBody:
-          description: The new field of the rental
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rental'
-        responses:
-          "200":
-            description: rental modified successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Rental"
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "404":
-            description: A rental with that id does not exit.
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /authentication/customers/login:
-      post:
-        description: Login a customer in the database. The customer must already exist.
-        tags:
-        - authentication
-        operationId: loginCustomer
-        requestBody:
-          description: the login info of the customer
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginFormInfo'
-        responses:
-          "200":
-            description: Authentication successfull
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the customer must register before login
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "403":
-            description: the credential are wrong
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-    /authentication/employees/login:
-      post:
-        description: Login a employee in the database. The employee must already exist.
-        tags:
-        - authentication
-        operationId: loginEmployee
-        requestBody:
-          description: the login info of the employee
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginFormInfo'
-        responses:
-          "200":
-            description: Authentication successfull
-          "400":
-            description: invalid input, object invalid
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "401":
-            description: the employee must register itself before login
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "403":
-            description: the credential are wrong
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"  
-
-
-      
   components:
     schemas:
-      Customer:
-        description: Schema for the customer type. Contain the fundamental info of the customer such as fist and last name, date of birth, username and encrypted password
+      PaginatorGeneric:
+        description: "Base schemas for a paginator object"
         required:
+        - totalDocs
+        - limit
+        - totalPages
+        - page
+        - paginCounter
+        - hasPrevPage
+        - hasNextPage
+        - prevPage
+        - nextPage
+        properties:
+          totalDocs:
+            type: number
+            example: 51
+          limit:
+            type: number
+            example: 15
+          totalPages:
+            type: number
+            example: 4
+          page:
+            type: number
+            example: 1
+          paginCounter:
+            type: number
+            example: 1
+          hasPrevPage:
+            type: boolean
+            example: false
+          hasNextPage:
+            type: boolean
+            example: true
+          prevPage:
+            type: number
+            nullable: true
+            example: null
+          nextPage:
+            type: number
+            nullable: true
+            example: 2
+      Customer:
+        description: "Schemas for a customer object"
+        required:
+        - _id
+        - firstname
+        - lastname
+        - dateOfBirth
         - loginInfo
-        type: object
+        - address
+        - profilePicture
+        - description
         properties:
           _id:
             $ref: '#/components/schemas/Id'
-          firstName:
+          firstname:
             type: string
-            example: Mario
-          lastName:
+            example: 'John'
+          lastname:
             type: string
-            example: Rossi
-          loginInfo:
-            $ref: "#/components/schemas/LoginInfo"
+            example: 'Smith'
           dateOfBirth:
             type: string
             format: date
+            example: "2021-07-13"
+          loginInfo:
+            $ref: "#/components/schemas/LoginInfo"
           address:
-            $ref: '#/components/schemas/Address'
+            $ref: "#/components/schemas/Address"
+          profilePicture:
+            type: string
+            format: path
+            example: "image/profile/placeholder.jpg"
+          description:
+            type: string
+            example: "Il cliente è molto arrabbiato"
       Employee:
         type: object
         required:
+          - _id
           - firstname
           - lastname
           - loginInfo
           - authorizazion
+          - profilePicture
         properties:
           _id:
             $ref: '#/components/schemas/Id'
@@ -1140,7 +608,156 @@ contents: >
             $ref: "#/components/schemas/LoginInfo"
           authorizazion:
             type: string
-            enum: ["Manager", "Employee"]
+            enum: ["Admin", "Employee"]
+          profilePicture:
+            type: string
+            example: "image/profile/placeholder.png"
+      Rental:
+        type: object
+        required:
+          - _id
+          - customer
+          - employee
+          - prenotationDate
+          - state
+          - bill
+          - startDate
+          - expectedEndDate
+          - actualEndDate
+          - unit
+          - priceEstimation
+        properties:
+          _id:
+            $ref: "#/components/schemas/Id"
+          customer:
+            $ref: "#/components/schemas/Id"
+          employee:
+            $ref: "#/components/schemas/Id"
+          bill:
+            $ref: "#/components/schemas/Id"
+          unit:
+            $ref: "#/components/schemas/Id"
+          priceEstimation:
+            $ref: "#/components/schemas/PriceEstimation"
+          prenotationDate:
+            type: string
+            format: date
+            example: "2021-07-13"
+          expectedEndDate:
+            type: string
+            format: date
+            example: "2021-07-20"
+          actualEndDate:
+            type: string
+            format: date
+            example: "2021-07-21"
+          state:
+            type: string
+            enum: ["open", "pending", "close"]
+      Product:
+        type: object
+        required:
+          - _id
+          - name
+          - description
+          - image
+          - category
+          - subcategory
+          - tags
+          - altproducts
+        properties:
+          _id:
+            $ref: '#/components/schemas/Id'
+          name:
+            type: string
+            example: "Ferrari 518"
+          description:
+            type: string
+            example: "La ferrari più veloce di sempre"
+          image:
+            type: string
+            example: "image/profile/placeholder.png"
+          category:
+            type: string
+            example: "Auto lusso"
+          subcategory:
+            type: string
+            example: "Super car"
+          tags:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
+          altproducts:
+            type: array
+            items:
+              $ref: "#/components/schemas/Id"
+      Unit:
+        type: object
+        required:
+          - _id
+          - name
+          - condition
+          - price
+          - product
+          - rentals
+        properties:
+          _id:
+            $ref: '#/components/schemas/Id'
+          name:
+            type: string
+            example: "Ferrari 518"
+          condition:
+            type: string
+            enum: ["perfect", "minor flaw", "major flaw", "broken"]
+          price:
+            type: number
+            example: 800
+          product:
+            $ref: "#/components/schemas/Id"    
+      PaginatorCustomer:
+        allOf:
+         - $ref: '#/components/schemas/PaginatorGeneric'
+         - type: object
+           required:
+             - docs
+           properties:
+             docs:
+              type: array
+              items:
+                $ref: "#/components/schemas/Customer"
+      PaginatorEmployee:
+        allOf:
+         - $ref: '#/components/schemas/PaginatorGeneric'
+         - type: object
+           required:
+             - docs
+           properties:
+             docs:
+              type: array
+              items:
+                $ref: "#/components/schemas/Employee"
+      PaginatorRental:
+        allOf:
+         - $ref: '#/components/schemas/PaginatorGeneric'
+         - type: object
+           required:
+             - docs
+           properties:
+             docs:
+              type: array
+              items:
+                $ref: "#/components/schemas/Rental"
+      PaginatorProduct:
+        allOf:
+         - $ref: '#/components/schemas/PaginatorGeneric'
+         - type: object
+           required:
+             - docs
+           properties:
+             docs:
+              type: array
+              items:
+                $ref: "#/components/schemas/Product"
       Address:
         type: object
         required:
@@ -1161,136 +778,8 @@ contents: >
           streetaddress:
             type: string
             example: "Via san felice 50/A"
-      Product:
+      PriceEstimation:
         type: object
-        description: Schema for the product type. Contain info about the product
-        required:
-        - name
-        - description
-        - image
-        - category
-        - subcategory
-        - tags
-        - altproducts
-        properties:
-          _id:
-            $ref: '#/components/schemas/Id'
-          name:
-            type: string
-            example: "Macchina da corsa"
-          description:
-            type: string
-            example: "Ferrari del 1950"
-          image:
-            type: string
-            format: path
-            example: "media/productImage.jpg"
-          category:
-            type: string
-            example: "Macchine"
-          subcategory:
-            type: string
-            example: "Super car"
-          tags:
-            type: array
-            items:
-              $ref: "#/components/schemas/Tag"
-          altproducts:
-            type: array
-            items:
-              $ref: "#/components/schemas/Id"
-      Unit:
-        type: object
-        required:
-          - name
-          - price
-          - condition
-          - available
-          - product
-          - rentals
-        properties:
-          _id:
-            $ref: '#/components/schemas/Id'
-          name:
-            type: string
-            example: "Ferrari 505 del 2019"
-          condition:
-            type: string
-            enum: ["Perfect", "minor flaw", "major flaw", "broken"]
-          available:
-            type: boolean
-            example: True
-          product:
-            $ref: "#/components/schemas/Id"
-          rentals:
-            type: array
-            items:
-              $ref: "#/components/schemas/Id"
-      Rental:
-        type: object
-        required:
-          - startdate
-          - enddate
-          - bill
-          - customer
-          - staff
-          - unit
-        properties:
-          _id:
-            $ref: "#/components/schemas/Id"
-          startdate:
-            type: string
-            format: date
-            example: "2021-07-13"
-          enddate:
-            type: string
-            format: date
-            example: "2017-08-02"
-          bill:
-            $ref: "#/components/schemas/Bill"
-          customer:
-            $ref: "#/components/schemas/Id"
-          staff:
-            $ref: "#/components/schemas/Id"
-          unit:
-            $ref: "#/components/schemas/Id"
-          date:
-            type: string
-      Bill:
-        type: object
-        required:
-          - baseprice
-          - modifiers
-          - date
-        properties:
-          _id:
-            $ref: "#/components/schemas/Id"
-          baseprice:
-            type: number
-            example: 125.4
-          modifiers:
-            type: array
-            items:
-              $ref: "#/components/schemas/Modifier"
-          date:
-            type: string
-            format: data
-            example: "2021-07-13"
-      RentalKit:
-        type: object
-        required:
-          - products
-          - price
-        properties:
-          _id:
-            $ref: "#/components/schemas/Id"
-          products:
-            type: array
-            items:
-              $ref: "#/components/schemas/Id"
-          price:
-            type: number
-            example: 1231
       Tag:
         required:
           - key
@@ -1302,30 +791,6 @@ contents: >
           value:
             type: string
             example: "Rolex"
-      Modifier:
-        required:
-          - value
-          - condition
-        properties:
-          value:
-            type: number
-            example: 0.90
-          condition:
-            type: string
-            example: "If rental is on the weekend"
-      Id:
-        type: integer
-        example: 24
-        description: "Id of object on the database"
-      Error:
-        required:
-        - message
-        type: object
-        properties:
-          message:
-            type: string
-            example: Could not find server
-        description: Schema for the error type. Contain info about the error
       LoginInfo:
         description: Schema for the login info of a customer/employee/manager.
         required:
@@ -1336,30 +801,28 @@ contents: >
         properties:
           username:
             type: string
-            example: mariorossi00
+            example: "mariorossi00"
           password:
             type: string
-            example: secretpassword
+            example: "secretpassword"
           email:
             type: string
             example: "mario.rossi@gmail.com"
-      LoginFormInfo:
-        description: Schema for the login info of a customer/employee/manager used when loggin in.
-                     It doesn't required the email and username, but only one of the two.
+      Id:
+        type: string
+        example: "61b0dd5c6cca343092e369c0"
+        description: "Id of object on the database"
+      Error:
         required:
-        - username
-        - password
+        - message
         type: object
         properties:
-          username:
+          message:
             type: string
-            example: mariorossi00
-            description: it can be either an email or a username
-          password:
-            type: string
-            example: secretpassword
+            example: Could not find server
+        description: Schema for the error type. Contain info about the error
     securitySchemes:
-      authToken:            # arbitrary name for the security scheme
+      authToken:
         type: http
         scheme: bearer
         bearerFormat: JWT 
